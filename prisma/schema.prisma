@@ -1,0 +1,78 @@
+// Prisma schema for the standalone debate app.
+//
+// Default datasource is local SQLite. To switch to Postgres, change `provider`
+// to "postgresql" and set DATABASE_URL accordingly, then run `npx prisma db push`.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DebateSession {
+  id             String   @id @default(cuid())
+  title          String
+  question       String
+  context        String?
+  mode           String   @default("balanced")
+  selectedModels String   // JSON array of model ids
+  summary        String?
+  status         String   @default("completed")
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  messages       DebateMessage[]
+  threads        DebateThread[]
+
+  @@index([updatedAt])
+}
+
+model DebateMessage {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   DebateSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  modelId   String?
+  role      String
+  text      String
+  order     Int
+  createdAt DateTime @default(now())
+
+  threads   DebateThread[]
+
+  @@index([sessionId, order])
+}
+
+model DebateThread {
+  id              String   @id @default(cuid())
+  sessionId       String
+  session         DebateSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  parentMessageId String
+  parentMessage   DebateMessage @relation(fields: [parentMessageId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  messages        DebateThreadMessage[]
+
+  @@index([sessionId])
+  @@index([parentMessageId])
+}
+
+model DebateThreadMessage {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    DebateThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  modelId   String?
+  isUser    Boolean  @default(false)
+  text      String
+  order     Int
+  createdAt DateTime @default(now())
+
+  @@index([threadId, order])
+}
