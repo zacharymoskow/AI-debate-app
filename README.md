@@ -4,7 +4,7 @@ A multi-model AI debate tool. Ask one question, watch 2–5 different AI models 
 
 Built on [Concentrate AI](https://concentrate.ai), Next.js 15, React 19, Prisma + SQLite, and Tailwind CSS.
 
-![debate app screenshot placeholder](./public/avatar.png)
+![debate app screenshot](./public/screenshot.png)
 
 ## Features
 
