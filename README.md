@@ -4,6 +4,8 @@ A multi-model AI debate tool. Ask one question, watch 2–5 different AI models 
 
 Built on [Concentrate AI](https://concentrate.ai), Next.js 15, React 19, Prisma + SQLite, and Tailwind CSS.
 
+> Originally inspired by [@eugene_mindset](https://x.com/eugene_mindset)'s tweet: *"i want a debate app for multiple ai models. ask the same question, compare answers, open threads, summarize. like a group chat. why does this not exist properly"* — [see the build tweet](https://x.com/zachmoskow/status/2058314384779215178?s=20).
+
 ![debate app screenshot](./public/debate-app-screenshot.png)
 
 ## Features
